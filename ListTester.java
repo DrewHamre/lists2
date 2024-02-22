@@ -139,20 +139,40 @@ public class ListTester {
 		//Possible list contents after a scenario has been set up
 		Integer[] LIST_A = {ELEMENT_A};
 		String STRING_A = "A";
+		
 		Integer[] LIST_BA = {ELEMENT_B, ELEMENT_A};
 		String STRING_BA = "BA";
-		Integer[] LIST_ABC = [ELEMENT_A, ELEMENT_B, ELEMENT_C];
+
+		Integer[] LIST_AB = {ELEMENT_A, ELEMENT_B};
+		String STRING_AB = "AB";
+
+		Integer[] LIST_ABC = {ELEMENT_A, ELEMENT_B, ELEMENT_C};
 		String STRING_ABC = "ABC";
+
+		Integer[] LIST_ABCD = {ELEMENT_A, ELEMENT_B, ELEMENT_C, ELEMENT_D};
+		String STRING_ABCD = "ABCD";
 
 		//newly constructed empty list
 		testEmptyList(newList, "newList");
 		//empty to 1-element list
 		testSingleElementList(emptyList_addToFrontA_A, "emptyList_addToFrontA_A", LIST_A, STRING_A);
+		testSingleElementList(emptyList_addA_A, "emptyList_addA_A", LIST_A, STRING_A);
+		testSingleElementList(emptyList_addToRearA_A, "emptyList_addToRearA_A", LIST_A, STRING_A);
+		testSingleElementList(emptyList_add0A_A, "emptyList_add0A_A", LIST_A, STRING_A);
 		//1-element to empty list
+
+
 		//1-element to 2-element
 		testTwoElementList(A_addToFrontB_BA, "A_addToFrontB_BA", LIST_BA, STRING_BA);
+		testTwoElementList(A_addToRearB_AB, "A_addtoRearB_AB", LIST_AB, STRING_AB);
+		testTwoElementList(A_addAfterBA_AB, "A_addAfterBA_AB", LIST_AB, STRING_AB);
+		testTwoElementList(A_addB_AB, "A_addB_AB", LIST_AB, STRING_AB);
+
 		//1-element to changed 1-element via set()
+
 		//2-element to 1-element
+
+		
 		//2-element to 3-element
 		//2-element to changed 2-element via set()
 		//3-element to 2-element
@@ -227,6 +247,65 @@ public class ListTester {
 		return list;
 	}
 	private Scenario<Integer> A_addToFrontB_BA = () -> A_addToFrontB_BA();
+
+	// MY CODE ADDITIONS START ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	// 1
+	// ADD A TO EMPTY LIST.
+	private IndexedUnsortedList<Integer> emptyList_addA_A() {
+		IndexedUnsortedList<Integer> list = newList();
+		list.add(ELEMENT_A);
+		return list;
+	}
+	private Scenario<Integer> emptyList_addA_A = () -> emptyList_addA_A();
+
+	// 2
+	// ADD A TO REAR OF EMPTY LIST.
+	private IndexedUnsortedList<Integer> emptyList_addToRearA_A() {
+		IndexedUnsortedList<Integer> list = newList();
+		list.addToRear(ELEMENT_A);
+		return list;
+	}
+	private Scenario<Integer> emptyList_addToRearA_A = () -> emptyList_addToRearA_A();
+
+	// 3
+	// ADD A TO INDEX 0 OF EMPTY LIST.
+	private IndexedUnsortedList<Integer> emptyList_add0A_A() {
+		IndexedUnsortedList<Integer> list = newList();
+		list.add(0, ELEMENT_A);;
+		return list;
+	}
+	private Scenario<Integer> emptyList_add0A_A = () -> emptyList_add0A_A();
+
+
+	// 4
+	// A, ADD B TO REAR
+	private IndexedUnsortedList<Integer> A_addToRearB_AB() {
+		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A(); 
+		list.addToRear(ELEMENT_B);
+		return list;
+	}
+	private Scenario<Integer> A_addToRearB_AB = () -> A_addToRearB_AB();
+
+	// 5
+	// A, ADDAFTER BA.
+	private IndexedUnsortedList<Integer> A_addAfterBA_AB() {
+		IndexedUnsortedList<Integer> list = A_addAfterBA_AB();
+		list.addAfter(ELEMENT_B, ELEMENT_A);
+		return list;
+	}
+	private Scenario<Integer> A_addAfterBA_AB = () -> A_addAfterBA_AB();
+
+	// 6
+	// ADD B TO A.
+	private IndexedUnsortedList<Integer> A_addB_AB() {
+		IndexedUnsortedList<Integer> list = A_addB_AB();
+		list.add(ELEMENT_B);
+		return list;
+	}
+	private Scenario<Integer> A_addB_AB = () -> A_addB_AB();
+
+	
 
 	/////////////////////////////////
 	//XXX Tests for 0-element list
