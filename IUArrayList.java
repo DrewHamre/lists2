@@ -43,20 +43,24 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public void addToFront(T element) {
-		// TODO 
-		
+		expandCapacity();
+		for (int i = rear; i > 0; i--) {	
+			array[i] = array[i-1];
+		}
+		array[0] = element;
+		rear++;
 	}
 
 	@Override
 	public void addToRear(T element) {
-		// TODO 
-		
+		expandCapacity();
+		array[rear] = element;
+		rear++;
 	}
 
 	@Override
 	public void add(T element) {
-		// TODO 
-		
+		addToRear(element);
 	}
 
 	@Override
@@ -105,8 +109,16 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO 
-		return null;
+		if (index < 0 || index >= rear) {
+			throw new IndexOutOfBoundsException();
+		}
+		T retVal = array[index]; // Stores the element that is about to be removed
+		for (int i = index; i < rear-1; i++) {
+			array[i] = array[i+1];
+		}
+		array[rear-1] = null;
+		rear--;
+		return retVal;
 	}
 
 	@Override
@@ -141,14 +153,18 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public T first() {
-		// TODO 
-		return null;
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return array[0];
 	}
 
 	@Override
 	public T last() {
-		// TODO 
-		return null;
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return rear-1;
 	}
 
 	@Override
@@ -158,14 +174,12 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO 
-		return false;
+		return (rear == 0);
 	}
 
 	@Override
 	public int size() {
-		// TODO 
-		return 0;
+		return rear;
 	}
 
 	@Override
