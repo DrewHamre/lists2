@@ -155,27 +155,67 @@ public class ListTester {
 		// Integer[] LIST_ABCD = {ELEMENT_A, ELEMENT_B, ELEMENT_C, ELEMENT_D};
 		// String STRING_ABCD = "ABCD";
 
+
+		// NUMBER LEFT TO DO //
+		//* 10, 11, 12, 13, 14, 15, 16, 25, 29, 30, 33, 35, 36, 38, 39 */
+
+		// 10
+		testTwoElementList(A_add0B_BA, "A_add0B_BA", LIST_BA, STRING_BA);
+		// 11
+		testTwoElementList(A_add1B_AB, "A_add1B_AB", LIST_AB, STRING_AB);
+		// 12
+		testEmptyList(A_removeFirst, "A_removeFirst");
+		// 13
+		testEmptyList(A_removeLast, "A_removeLast");
+		// 14
+		testEmptyList(A_removeA, "A_removeA");
+		// 15 
+		testEmptyList(A_remove0, "A_remove0");
+		// 16
+		testSingleElementList(A_set0B_B, "A_set0B_B", LIST_B, STRING_B);
+		// 25
+		testSingleElementList(AB_removeFirst_B, "AB_removeFirst_B", LIST_B, STRING_B);
+		// 29
+		testSingleElementList(AB_remove0_B, "AB_remove0_B", LIST_AB, STRING_AB);
+		// 30
+		testSingleElementList(AB_remove1_A, "AB_remove1_A", LIST_A, STRING_A);
+		// 33 
+		testTwoElementList(ABC_removeFirst_BC, "ABC_removeFirst_BC", LIST_BC, STRING_BC);
+		// 35
+		testTwoElementList(ABC_removeA_BC, "ABC_removeA_BC", LIST_BC, STRING_BC);
+		// 36
+		testTwoElementList(ABC_removeB_AC, "ABC_removeB_AC", LIST_AC, STRING_AC);
+		// 38
+		testTwoElementList(ABC_remove0_BC, "ABC_remove0_BC", LIST_BC, STRING_BC);
+		// 39
+		testTwoElementList(ABC_remove1_AC, "ABC_remove1_AC", LIST_AC, STRING_AC);
+
+
+
+
+
+
 		//newly constructed empty list
-		testEmptyList(newList, "newList");
+		testEmptyList(newList, "newList"); // 1
 
 		//empty to 1-element list
-		testSingleElementList(emptyList_addToFrontA_A, "emptyList_addToFrontA_A", LIST_A, STRING_A);
-		testSingleElementList(emptyList_addA_A, "emptyList_addA_A", LIST_A, STRING_A);
-		testSingleElementList(emptyList_addToRearA_A, "emptyList_addToRearA_A", LIST_A, STRING_A);
-		testSingleElementList(emptyList_add0A_A, "emptyList_add0A_A", LIST_A, STRING_A);
+		testSingleElementList(emptyList_addToFrontA_A, "emptyList_addToFrontA_A", LIST_A, STRING_A); // 2
+		testSingleElementList(emptyList_addToRearA_A, "emptyList_addToRearA_A", LIST_A, STRING_A); // 3
+		testSingleElementList(emptyList_addA_A, "emptyList_addA_A", LIST_A, STRING_A); // 4
+		testSingleElementList(emptyList_add0A_A, "emptyList_add0A_A", LIST_A, STRING_A); // 5
 
 		//1-element to empty list
 
 		//1-element to 2-element
-		testTwoElementList(A_addToFrontB_BA, "A_addToFrontB_BA", LIST_BA, STRING_BA);
-		testTwoElementList(A_addToRearB_AB, "A_addToRearB_AB", LIST_AB, STRING_AB);
-		testTwoElementList(A_addAfterBA_AB, "A_addAfterBA_AB", LIST_AB, STRING_AB);
-		testTwoElementList(A_addB_AB, "A_addB_AB", LIST_AB, STRING_AB);
+		testTwoElementList(A_addToFrontB_BA, "A_addToFrontB_BA", LIST_BA, STRING_BA); // 6
+		testTwoElementList(A_addToRearB_AB, "A_addToRearB_AB", LIST_AB, STRING_AB); // 7
+		testTwoElementList(A_addAfterBA_AB, "A_addAfterBA_AB", LIST_AB, STRING_AB); // 8
+		testTwoElementList(A_addB_AB, "A_addB_AB", LIST_AB, STRING_AB); // 9
 
 		//1-element to changed 1-element via set()
 
 		//2-element to 1-element
-		testTwoElementList(AB_removeA_B, "AB_removeA_B", LIST_B, STRING_B);
+		testTwoElementList(AB_removeA_B, "AB_removeA_B", LIST_B, STRING_B); // 27
 		
 		//2-element to 3-element
 
