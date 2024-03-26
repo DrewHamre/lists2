@@ -6,6 +6,7 @@
  */
 public class Node<E> {
 	private Node<E> next;
+	private Node<E> prev;
 	private E element;
 
 	/**
@@ -69,4 +70,12 @@ public class Node<E> {
 	public String toString() {
 		return "Element: " + element.toString() + " Has next: " + (next != null);
 	}
+
+    public void setPrevious(Node<E> previous) {
+		prev = previous;
+    }
+
+	// 			getPrevious() {
+	// 	return prev;			
+	// }
 }

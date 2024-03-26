@@ -1,9 +1,10 @@
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * Double-linked list implementation of INdexedUnsortedList 
+ * Double-linked list implementation of IndexedUnsortedList 
  * supporting a LitIterator as well as a basic Iterator.
  * @author Drew Hamre
  */
@@ -114,7 +115,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
         } else if (index == 0) {         // HEAD END (Cant be the tail)
             retVal = head.getElement();
-            head = head.getNext;     // We know there is a next node because we determined it isn't a single list in special case 3.
+            head = head.getNext();     // We know there is a next node because we determined it isn't a single list in special case 3.
             head.setPrevious(null);
 
         } else { // If not at the head end... \/\/\/\/
@@ -185,19 +186,123 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     
     @Override
     public Iterator<T> iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+        return new DLLIterator(0);
     }
 
     @Override
     public ListIterator<T> listIterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listIterator'");
+        return new DLLIterator(0);
     }
 
     @Override
     public ListIterator<T> listIterator(int startingIndex) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listIterator'");
+        return new DLLIterator(startingIndex);
+    }
+
+    /**
+     * Acts as both a basic Iterator and ListIterator for IUDLL
+     */
+    private class DLLIterator implements ListIterator<T> {
+        private Node<T> nextNode;
+        private int nextIndex;
+        private int iterModCount;
+        // canRemove / set (will need something like this eventually)
+
+        /**
+         * Initialize iterator before given starting index.
+         * @param startingIndex
+         */
+        public DLLIterator(int startingIndex) {
+            if (startingIndex < 0 || startingIndex > size) {
+                throw new IndexOutOfBoundsException();
+            }
+            // Navigating from beginning to end \/\/\/ QUESTION: How could you start from the end instead of the beginning?
+            //                                                        (This would make it much faster and efficient)
+            nextNode = head;
+            for (int i = 0; i < startingIndex; i++) {
+                nextNode = nextNode.getNext();
+            }
+            // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+            nextIndex = startingIndex;
+            iterModCount = modCount;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            return nextNode != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T retVal = nextNode.getElement();
+            nextNode = nextNode.getNext();
+            nextIndex++;
+            // Address canRemove / set HERE
+            return retVal;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            return nextNode != head;
+        }
+
+        @Override
+        public T previous() {
+            if (!hasPrevious()) {
+                throw new NoSuchElementException();
+            }
+            if (nextNode != null) {
+                nextNode = nextNode.getPrevious();
+            } else {
+                nextNode = tail;
+            }
+            nextIndex--;
+            // Address canRemove / set HERE
+            return nextNode.getElement();
+        }
+
+        @Override
+        public int nextIndex() {
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            return nextIndex;
+        }
+
+        @Override
+        public int previousIndex() {
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            return nextIndex - 1;
+        }
+
+        @Override
+        public void remove() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        }
+
+        @Override
+        public void set(T e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'set'");
+        }
+
+        @Override
+        public void add(T e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'add'");
+        }
+
     }
 }
