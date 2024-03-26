@@ -1,7 +1,6 @@
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import org.w3c.dom.Node;
 
 /**
  * Double-linked list implementation of INdexedUnsortedList 
@@ -31,13 +30,13 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     @Override
     public void addToFront(T element) {
         Node<T> newNode = new Node<T>(element);
-        newNode.setNextNode(head);
+        newNode.setNext(head);
         // We need to know if we're adding to an empty list till we get to the next point.
         // So...
         if (isEmpty()) {
             tail = newNode;
         } else {
-            head.setPreviousNode(newNode);
+            head.setPrevious(newNode);
         }
         head = newNode;
         size++;
@@ -74,11 +73,11 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             throw new NoSuchElementException();
         } 
         T retVal = head.getElement();
-        head = head.getNextNode();
+        head = head.getNext();
         if(head == null) {
             tail = null;
         } else {
-            head.setPreviousNode(null);
+            head.setPrevious(null);
         }
         size--;
         modCount++;
@@ -115,8 +114,8 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
         } else if (index == 0) {         // HEAD END (Cant be the tail)
             retVal = head.getElement();
-            head = head.getNextNode;     // We know there is a next node because we determined it isn't a single list in special case 3.
-            head.setPreviousNode(null);
+            head = head.getNext;     // We know there is a next node because we determined it isn't a single list in special case 3.
+            head.setPrevious(null);
 
         } else { // If not at the head end... \/\/\/\/
 
@@ -126,11 +125,11 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             }
             retVal = currentNode.getElement();
             if (currentNode == tail) {
-                tail = currentNode.getPreviousNode();
+                tail = currentNode.getPrevious();
             } else {
-                currentNode.getNextNode().setPreviousNode(currentNode.getPreviousNode());
+                currentNode.getNext().setPreviousNode(currentNode.getPrevious());
             }
-            currentNode.getPreviousNode().setNextNode(currentNode.getNextNode());
+            currentNode.getPrevious().setNextNode(currentNode.getNext());
         }
         
         size--;
