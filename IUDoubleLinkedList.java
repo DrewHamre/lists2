@@ -123,7 +123,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             throw new IndexOutOfBoundsException();
         }
         T retVal;
-
+        
         // general case: middle of a 3+ element list
         // special case 1: head of a 2+ element list
         // special case 2: tail of a 2+ element list
