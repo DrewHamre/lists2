@@ -1,0 +1,78 @@
+
+****************
+* DLL
+* CS 221 W/ Mason Vail
+* 04/05/24
+* Drew Hamre
+**************** 
+
+OVERVIEW:
+
+ListTester runs tests to test functionality of IUDoubleLinkedList 
+and all previously created list types throughout the semester 
+(ArrayList & SingleLinkedList).
+
+
+INCLUDED FILES:
+
+ * IUDoubleLinkedList.java - source file
+ * ListTester.java - source file
+ * README - this file
+
+
+COMPILING AND RUNNING:
+
+ From the directory containing all source files, compile the
+ driver class (and all dependencies) with the command:
+ $ javac ListTester.java
+
+ Run the compiled class file with the command:
+ $ java ListTester
+
+ Console output will give the results after the program finishes.
+
+
+PROGRAM DESIGN AND IMPORTANT CONCEPTS:
+
+
+                This is the sort of information someone who really wants to
+                understand your program - possibly to make future enhancements -
+                would want to know.
+
+                Explain the main concepts and organization of your program so that
+                the reader can understand how your program works. This is not a repeat
+                of javadoc comments or an exhaustive listing of all methods, but an
+                explanation of the critical algorithms and object interactions that make
+                up the program.
+
+                Explain the main responsibilities of the classes and interfaces that make
+                up the program. Explain how the classes work together to achieve the program
+                goals. If there are critical algorithms that a user should understand, 
+                explain them as well.
+                
+                If you were responsible for designing the program's classes and choosing
+                how they work together, why did you design the program this way? What, if 
+                anything, could be improved? 
+
+TESTING:
+
+                How did you test your program to be sure it works and meets all of the
+                requirements? What was the testing strategy? What kinds of tests were run?
+                Can your program handle bad input? Is your program  idiot-proof? How do you 
+                know? What are the known issues / bugs remaining in your program?
+
+First of all, I tried to write the best ListTester possible so I could trust 
+the results of my IUDOubleLinkedList methods. Although I knew it likely wouldn't 
+be 100% reliable, it gave me enough confidence to know whether or not I was
+making progress or not.
+
+
+DISCUSSION:
+ 
+ My biggest problem was simply writing all the methods for IUDoubleLinkedList
+ and making sure I accounted for all potential special cases. I also struggled
+ a bit with differentiating those methods from the IUSingleLinkedList methods.
+ Because it seemed like there were so many ways in which I could end up confused,
+ I was forced me to actually draw the steps out on a tablet, similar to like we
+ did in class, and go step by step, making sure everything was dealt within
+ any particular method.
