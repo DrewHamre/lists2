@@ -93,7 +93,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
     @Override
     public T removeLast() {
-
+        
     }
 
     @Override
@@ -123,7 +123,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             throw new IndexOutOfBoundsException();
         }
         T retVal;
-        
+
         // general case: middle of a 3+ element list
         // special case 1: head of a 2+ element list
         // special case 2: tail of a 2+ element list
@@ -142,15 +142,15 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
             Node<T> currentNode = head;
             for (int i = 0; i < index; i++) {
-                currentNode = currrentNode.getNextNode();
+                currentNode = currentNode.getNext();
             }
             retVal = currentNode.getElement();
             if (currentNode == tail) {
                 tail = currentNode.getPrevious();
             } else {
-                currentNode.getNext().setPreviousNode(currentNode.getPrevious());
+                currentNode.getNext().setPrevious(currentNode.getPrevious());
             }
-            currentNode.getPrevious().setNextNode(currentNode.getNext());
+            currentNode.getPrevious().setNext(currentNode.getNext());
         }
         
         size--;
@@ -159,6 +159,10 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
         }
 
     public void set(int index, T element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
 
     }
 

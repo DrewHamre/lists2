@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -123,20 +124,25 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public void set(int index, T element) {
-		// TODO 
-		
+		if (index < 0 || index >= rear) {
+			throw new IndexOutOfBoundsException();
+		}
+		modCount++;
+		array[index] = element;
 	}
 
 	@Override
 	public T get(int index) {
-		// TODO 
-		return null;
+		if (index < 0 || index >= rear) {
+			throw new IndexOutOfBoundsException();
+		}
+		modCount++;
+		return array[index];
 	}
 
 	@Override
 	public int indexOf(T element) {
 		int index = NOT_FOUND;
-		
 		if (!isEmpty()) {
 			int i = 0;
 			while (index == NOT_FOUND && i < rear) {
@@ -147,7 +153,6 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 				}
 			}
 		}
-		
 		return index;
 	}
 
@@ -164,7 +169,7 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 		if (isEmpty()) {
 			throw new NoSuchElementException();
 		}
-		return rear-1;
+		return array[rear-1];
 	}
 
 	@Override
@@ -201,28 +206,52 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 	private class ALIterator implements Iterator<T> {
 		private int nextIndex;
 		private int iterModCount;
+		private boolean canRemove;
 		
 		public ALIterator() {
 			nextIndex = 0;
 			iterModCount = modCount;
+			canRemove = false;
 		}
 
 		@Override
 		public boolean hasNext() {
-			// TODO 
-			return false;
+			if(iterModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
+			return nextIndex < rear;
 		}
 
 		@Override
 		public T next() {
-			// TODO 
-			return null;
+			if(iterModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			canRemove = true;
+			nextIndex++;
+			return array[nextIndex - 1];
 		}
 		
 		@Override
 		public void remove() {
-			// TODO
-			
+			canRemove = false;
+			if(iterModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
+			if(!canRemove) {
+				throw new IllegalStateException();
+			}
+			for(int i = nextIndex -1; i < rear-1; i++) {
+				array[i] = array[i+1];
+			}
+			array[rear-1] = null;
+			rear--;
+			nextIndex--;
+			modCount++;
+			iterModCount++;
 		}
 	}
 }
