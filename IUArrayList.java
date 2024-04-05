@@ -66,45 +66,76 @@ public class IUArrayList<T> implements IndexedUnsortedList<T> {
 
 	@Override
 	public void addAfter(T element, T target) {
-		// TODO 
-		
+		int index = indexOf(target);
+		if (!contains(target)) {
+			throw new NoSuchElementException();
+		}
+		if (rear == array.length) {
+			expandCapacity();
+		}
+		for (int i = rear; i > index; i--) {
+			array[i] = array[i-1];
+		}
+		array[index+1] = element;
+		rear++;
+		modCount++;
 	}
 
 	@Override
 	public void add(int index, T element) {
-		// TODO 
-		
+		if (index < 0 || index >= rear) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (rear == array.length) {
+			expandCapacity();
+		}
+		for (int i = rear; i < index; i--) {	
+			array[i] = array[i-1];
+		}
+		array[index] = element;
+		rear++;
+		modCount++;
 	}
 
 	@Override
 	public T removeFirst() {
-		// TODO 
-		return null;
+		T retVal = array[0];
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		for (int i = 0; i < rear; i++) {
+			array[i] = array[i+1];
+		}
+		array[rear-1] = null;
+		rear--;
+		modCount++;
+		return retVal;
 	}
 
 	@Override
 	public T removeLast() {
-		// TODO 
-		return null;
+		T retVal = array[rear-1];
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		array[rear-1] = null;
+		modCount++;
+		return retVal;
 	}
 
 	@Override
 	public T remove(T element) {
 		int index = indexOf(element);
+		T retVal = array[index];
 		if (index == NOT_FOUND) {
 			throw new NoSuchElementException();
 		}
-		
-		T retVal = array[index];
-		
 		rear--;
-		//shift elements
 		for (int i = index; i < rear; i++) {
 			array[i] = array[i+1];
 		}
 		array[rear] = null;
 		modCount++;
-		
 		return retVal;
 	}
 

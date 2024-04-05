@@ -46,19 +46,41 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     }
 
     @Override
-    public void addToRear(T element) {
-
+    public void addToRear(T element) {                //DOUBLE CHECK!!!\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+        Node<T> newNode = new Node<T>(element);
+        newNode.setPrevious(tail);
+        if (isEmpty()) {
+            head = newNode;
+        } else {
+            tail.setNext(newNode);
+        }
+        tail = newNode;
+        size++;
+        modCount++;
     }
 
     @Override
-    public void add (T element) {
-
+    public void add(T element) {
+        addToRear(element);
     }
 
     @Override
     public void addAfter(T element, T target) {
-
-    }
+		Node<T> targetNode = head;
+		while (targetNode != null && !targetNode.getElement().equals(target)) {
+			targetNode = targetNode.getNext();
+		}
+		if (targetNode == null) {
+			throw new NoSuchElementException();
+		}
+		Node<T> newNode = new Node<T>(element);
+		newNode.setNext(targetNode.getNext());
+		targetNode.setNext(newNode);
+		if (targetNode == tail) {
+			tail = newNode;
+		}
+		size++;
+	}
 
     @Override
     public void add(int index, T element) {
@@ -92,8 +114,17 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     }
 
     @Override
-    public T removeLast() {
-        
+    public T removeLast() {                //DOUBLE CHECK!!!\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        ListIterator<T> lit = listIterator();
+        T retVal = lit.next();
+        while (lit.hasNext()) {
+            lit.next();
+        }
+        lit.remove();
+        return retVal;
     }
 
     @Override
@@ -124,10 +155,6 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
         }
         T retVal;
 
-        // general case: middle of a 3+ element list
-        // special case 1: head of a 2+ element list
-        // special case 2: tail of a 2+ element list
-
         // special case 3: single element list
         if (head == tail) {
             retVal = head.getElement();
@@ -152,7 +179,6 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             }
             currentNode.getPrevious().setNext(currentNode.getNext());
         }
-        
         size--;
         modCount++;
         return retVal;
@@ -184,7 +210,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     }
 
     public T last() {
-
+  
     }
     
     // SAME AS SINGLE LINKED BELOW \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
