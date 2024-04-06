@@ -156,7 +156,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
     @Override
     public T remove(T element) {
-        // FINALLY IMPLEMENTING LISTITERATOR TO DO METHODS MORE EFFICIENTLY!
+        // FINALLY IMPLEMENTING ITERATOR TO DO METHODS MORE EFFICIENTLY!
         ListIterator<T> lit = listIterator();
         T retVal = null;
         boolean foundIt = false;
