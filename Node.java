@@ -75,11 +75,7 @@ public class Node<E> {
 		prev = previous;
     }
 
-
 	public Node<E> getPrevious() {
 		return prev;
 	}
-	// 			getPrevious() {
-	// 	return prev;			
-	// }
 }

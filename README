@@ -76,3 +76,9 @@ DISCUSSION:
  I was forced me to actually draw the steps out on a tablet, similar to like we
  did in class, and go step by step, making sure everything was dealt within
  any particular method.
+
+
+PERSONAL SCP COMMANDS:
+scp /Users/drewhamre/Documents/CS221/lists2-1/README drewhamre@onyx.boisestate.edu:/home/DREWHAMRE/CS221/dll
+scp /Users/drewhamre/Documents/CS221/lists2-1/ListTester.java drewhamre@onyx.boisestate.edu:/home/DREWHAMRE/CS221/dll
+scp /Users/drewhamre/Documents/CS221/lists2-1/IUDoubleLinkedList.java drewhamre@onyx.boisestate.edu:/home/DREWHAMRE/CS221/dll

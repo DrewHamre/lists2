@@ -15,7 +15,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     private int modCount;
 
     /**
-     * Initialize a double-linked list DONE
+     * Initialize a double-linked list
      */
     public IUDoubleLinkedList() {
         head = tail = null;
@@ -40,13 +40,14 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     }
 
     @Override
-    public void addToRear(T element) {                //DOUBLE CHECK!!!\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+    public void addToRear(T element) {
         Node<T> newNode = new Node<T>(element);
         newNode.setPrevious(tail);
         if (isEmpty()) {
             head = newNode;
         } else {
             tail.setNext(newNode);
+            newNode.setPrevious(tail);
         }
         tail = newNode;
         size++;
@@ -68,26 +69,54 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 			throw new NoSuchElementException();
 		}
 		Node<T> newNode = new Node<T>(element);
+         if(targetNode.getNext() != null) targetNode.getNext().setPrevious(newNode);
 		newNode.setNext(targetNode.getNext());
 		targetNode.setNext(newNode);
+        if(head != null) {
+                newNode.setPrevious(targetNode);
+        } else {
+                head = newNode;
+        }
 		if (targetNode == tail) {
 			tail = newNode;
 		}
 		size++;
 	}
 
-    //TODO \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override 
     public void add(int index, T element) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
+        Node<T> newNode = new Node<T>(element);
+        Node<T> prevNode = head;
+        int currentIndex = 0;
+        while (currentIndex < index && prevNode.getNext() != null) {
+            prevNode = prevNode.getNext();
+            currentIndex++;
+        }
+        if (isEmpty()) { // no elements
+            head = tail = newNode;
+        } else if (index == 0) { 
+            newNode.setNext(head);
+            head.setPrevious(newNode);
+            head = newNode;
+        } else {
+            if (prevNode.getNext() != null) {
+                prevNode.getNext().setPrevious(newNode);
+            }       
+            newNode.setNext(prevNode.getNext());
+            newNode.setPrevious(prevNode);
+            prevNode.setNext(newNode);
+            if (prevNode == tail) {
+                tail = newNode;
+            }
+        }
+        size++;
+        modCount++;
     }
 
     @Override
-    /**
-     * DONE
-     */
     public T removeFirst() {
         if (isEmpty()) {
             throw new NoSuchElementException();
@@ -112,14 +141,13 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
     }
 
     @Override
-    public T removeLast() {                //DOUBLE CHECK!!!\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+    public T removeLast() {
         if (isEmpty()) {
             throw new NoSuchElementException();
         }
         ListIterator<T> lit = listIterator();
         T retVal = null;
         while (lit.hasNext()) {
-            lit.next();
             retVal = lit.next();
         }
         lit.remove();
@@ -134,7 +162,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
         boolean foundIt = false;
         while (lit.hasNext() && !foundIt) {
             retVal = lit.next();
-            if (lit.next().equals(element)) {
+            if (lit.equals(element)) {
                 foundIt = true;
                 lit.remove();
             }
@@ -179,12 +207,17 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
         return retVal;
         }
     
-    //TODO \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override
     public void set(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
+        Node<T> targetNode = head;
+        for (int i = 0; i < index; i++) {
+            targetNode = targetNode.getNext();
+        } 
+        targetNode.setElement(element);
+        modCount++;
     }
 
     @Override
@@ -196,49 +229,52 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
         return lit.next();
     }
 
-    //TODO \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override
     public int indexOf(T element) {
-
+        int index = -1;
+        int currentIndex = 0;
+        Node<T> targetNode = head;
+        while (index < 0 && targetNode != null) {
+            if (targetNode.getElement().equals(element)) {
+                index = currentIndex;
+            } else {
+                targetNode = targetNode.getNext();
+                currentIndex++;
+            }
+        }
+        return index;
     }
 
-    //TODO \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override
     public T first() {
-
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return head.getElement();
     }
 
-    //TODO \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override
     public T last() {
-  
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return tail.getElement();
     }
     
-    // SAME AS SINGLE LINKED BELOW \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
     @Override
-    /**
-     * DONE
-     */
     public int size() {
         return size;
     }
 
     @Override
-    /**
-     * DONE
-     */
     public boolean isEmpty() {
         return head == null;
     }
 
-    /**
-     * DONE
-     */
+    @Override
     public boolean contains(T target) {
         return indexOf(target) > -1;
     }
-
-    // QUICK ADDED METHODS
     
     @Override
     public Iterator<T> iterator() {
@@ -272,14 +308,10 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             if (startingIndex < 0 || startingIndex > size) {
                 throw new IndexOutOfBoundsException();
             }
-            // Navigating from beginning to end \/\/\/ QUESTION: How could you start from the end instead of the beginning?
-            //                                                        (This would make it much faster and efficient)
-            //                                                                     DO THIS EVENTUALLY!!!
             nextNode = head;
             for (int i = 0; i < startingIndex; i++) {
                 nextNode = nextNode.getNext();
             }
-            // /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
             nextIndex = startingIndex;
             iterModCount = modCount;
             lastReturnedNode = null;
@@ -364,7 +396,7 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
             }
             if (lastReturnedNode != nextNode) { // This means last move was next, now removing node to the left
                 nextIndex--;
-            } else { // last move was previous, now removing node to the right... nextNode!
+            } else { // last move was previous, now removing node to the right... nextNode.
                 nextNode = nextNode.getNext();
             }
             lastReturnedNode = null;
@@ -375,15 +407,42 @@ public class IUDoubleLinkedList<T> implements IndexedUnsortedList<T> {
 
         @Override
         public void set(T e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'set'");
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (lastReturnedNode == null) {
+                throw new IllegalStateException();
+            }
+            lastReturnedNode.setElement(e);
+            modCount++;
+            iterModCount++;
         }
 
         @Override
         public void add(T e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'add'");
+            if (iterModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+            Node<T> newNode = new Node<T>(e);
+            if (size == 0) {
+                head = tail = newNode;
+            } else if (nextNode == head) {
+                newNode.setNext(head);
+                head.setPrevious(newNode);
+                head = newNode; 
+            } else if (nextNode == null) {
+                newNode.setPrevious(tail);
+                tail.setNext(newNode);
+                tail = newNode;
+            } else {
+                newNode.setPrevious(nextNode.getPrevious());
+                nextNode.getPrevious().setNext(newNode);
+                nextNode.setPrevious(newNode);
+            }
+            size++;
+            modCount++;
+            iterModCount++;
+            nextIndex++;
         }
-
     }
 }

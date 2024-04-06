@@ -20,7 +20,7 @@ public class ListTester {
 		goodList, badList, arrayList, singleLinkedList, doubleLinkedList
 	};
 	// TODO: THIS IS WHERE YOU CHOOSE WHICH LIST TO TEST
-	private final static ListToUse LIST_TO_USE = ListToUse.goodList;
+	private final static ListToUse LIST_TO_USE = ListToUse.doubleLinkedList;
 
 	// possible results expected in tests
 	private enum Result {
@@ -265,7 +265,7 @@ public class ListTester {
 	}
 	private Scenario<Integer> emptyList_addToFrontA_A = () -> emptyList_addToFrontA_A();  // ListTests 2
 
-	// ADD A TO REAR OF EMPTY LIST.
+
 	private IndexedUnsortedList<Integer> emptyList_addToRearA_A() {
 		IndexedUnsortedList<Integer> list = newList();
 		list.addToRear(ELEMENT_A);
@@ -273,7 +273,7 @@ public class ListTester {
 	}
 	private Scenario<Integer> emptyList_addToRearA_A = () -> emptyList_addToRearA_A(); // ListTests 3
 
-	// ADD A TO EMPTY LIST.
+
 	private IndexedUnsortedList<Integer> emptyList_addA_A() {
 		IndexedUnsortedList<Integer> list = newList();
 		list.add(ELEMENT_A);
@@ -282,7 +282,6 @@ public class ListTester {
 	private Scenario<Integer> emptyList_addA_A = () -> emptyList_addA_A(); // ListTests 4
 
 
-	// ADD A TO INDEX 0 OF EMPTY LIST.
 	private IndexedUnsortedList<Integer> emptyList_add0A_A() {
 		IndexedUnsortedList<Integer> list = newList();
 		list.add(0, ELEMENT_A);
@@ -300,7 +299,7 @@ public class ListTester {
 	}
 	private Scenario<Integer> A_addToFrontB_BA = () -> A_addToFrontB_BA(); // ListTests 6
 
-	// A, ADD B TO REAR
+
 	private IndexedUnsortedList<Integer> A_addToRearB_AB() {
 		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A(); 
 		list.addToRear(ELEMENT_B);
@@ -308,7 +307,7 @@ public class ListTester {
 	}
 	private Scenario<Integer> A_addToRearB_AB = () -> A_addToRearB_AB(); // ListTests 7
 
-	// A, ADDAFTER BA.
+
 	private IndexedUnsortedList<Integer> A_addAfterBA_AB() {
 		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A();
 		list.addAfter(ELEMENT_B, ELEMENT_A);
@@ -316,7 +315,7 @@ public class ListTester {
 	}
 	private Scenario<Integer> A_addAfterBA_AB = () -> A_addAfterBA_AB(); // ListTests 8
 
-	// ADD B TO A.
+
 	private IndexedUnsortedList<Integer> A_addB_AB() {
 		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A();
 		list.add(ELEMENT_B);
@@ -395,6 +394,14 @@ public class ListTester {
 		return list;
 	}
 	private Scenario<Integer> AB_removeFirst_B = () -> AB_removeFirst_B(); // ListTests 25
+
+
+	private IndexedUnsortedList<Integer> AB_removeA_B() {
+		IndexedUnsortedList<Integer> list = A_addAfterBA_AB();
+		list.remove(ELEMENT_A);
+		return list;
+	}
+	private Scenario<Integer> AB_removeA_B = () -> AB_removeA_B(); // ListTests 27
 	
 	
 	private IndexedUnsortedList<Integer> AB_remove0_B() {
@@ -452,13 +459,6 @@ public class ListTester {
 	}
 	private Scenario<Integer> ABC_remove1_AC = () -> ABC_remove1_AC(); // ListTests 39
 	
-
-	private IndexedUnsortedList<Integer> AB_removeA_B() {
-		IndexedUnsortedList<Integer> list = A_addAfterBA_AB();
-		list.remove(ELEMENT_A);
-		return list;
-	}
-	private Scenario<Integer> AB_removeA_B = () -> AB_removeA_B(); // ListTests 27
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
